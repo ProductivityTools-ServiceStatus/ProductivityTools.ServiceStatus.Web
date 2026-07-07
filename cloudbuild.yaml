@@ -32,7 +32,6 @@ steps:
       - '--platform=managed'
       - '--image=us-central1-docker.pkg.dev/$PROJECT_ID/cloud-run-source-deploy/$PROJECT_ID:$COMMIT_SHA'
       - '--region=us-central1'
-      - '--labels=managed-by=gcp-cloud-build-deploy-cloud-run,commit-sha=$COMMIT_SHA,gcb-build-id=$BUILD_ID,gcb-trigger-id=$TRIGGER_BUILD_ID'
       - '--quiet'
 
 images:
