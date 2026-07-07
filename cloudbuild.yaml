@@ -1,0 +1,45 @@
+steps:
+  # 1. Budowanie obrazu Docker
+  - name: 'gcr.io/cloud-builders/docker'
+    id: Build
+    args:
+      - 'build'
+      - '--no-cache'
+      - '-t'
+      - '$_AR_HOSTNAME/$PROJECT_ID/$_AR_REPOSITORY/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA'
+      - '.'
+      - '-f'
+      - 'Dockerfile'
+
+  # 2. Push obrazu do Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    id: Push
+    args:
+      - 'push'
+      - '$_AR_HOSTNAME/$PROJECT_ID/$_AR_REPOSITORY/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA'
+
+  # 3. Wdrożenie na Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
+    id: Deploy
+    entrypoint: 'gcloud'
+    args:
+      - 'run'
+      - 'services'
+      - 'update'
+      - '$_SERVICE_NAME'
+      - '--platform=$_PLATFORM'
+      - '--image=$_AR_HOSTNAME/$PROJECT_ID/$_AR_REPOSITORY/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA'
+      - '--region=$_DEPLOY_REGION'
+      - '--labels=managed-by=gcp-cloud-build-deploy-cloud-run,commit-sha=$COMMIT_SHA,gcb-build-id=$BUILD_ID,gcb-trigger-id=$TRIGGER_BUILD_ID'
+      - '--quiet'
+
+images:
+  - '$_AR_HOSTNAME/$PROJECT_ID/$_AR_REPOSITORY/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA'
+
+options:
+  substitutionOption: 'ALLOW_LOOSE'
+  logging: 'CLOUD_LOGGING_ONLY'
+
+tags:
+  - 'gcp-cloud-build-deploy-cloud-run'
+  - 'gcp-cloud-build-deploy-cloud-run-managed'
