@@ -28,10 +28,10 @@ steps:
       - 'services'
       - 'update'
       - 'pt-service-status'
+      - '--allow-unauthenticated'
       - '--platform=managed'
       - '--image=us-central1-docker.pkg.dev/$PROJECT_ID/service-status-repo/$PROJECT_ID:$COMMIT_SHA'
       - '--region=us-central1'
-      - '--allow-unauthenticated'
       - '--quiet'
 
 images:
