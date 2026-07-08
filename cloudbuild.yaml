@@ -1,6 +1,5 @@
 steps:
   # 1. Build the Docker image
-  # FIXED: Updated the repository name to 'service-status-repo' to match subsequent steps
   - name: 'gcr.io/cloud-builders/docker'
     id: Build
     args:
@@ -19,7 +18,7 @@ steps:
       - 'push'
       - 'us-central1-docker.pkg.dev/$PROJECT_ID/service-status-repo/$PROJECT_ID:$COMMIT_SHA'
 
-  # 3. Deploy to Cloud Run
+  # 3. Deploy/Update the Cloud Run service (without the problematic flag)
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
     id: Deploy
     entrypoint: 'gcloud'
@@ -28,11 +27,23 @@ steps:
       - 'services'
       - 'update'
       - 'pt-service-status'
-      - '--allow-unauthenticated'
       - '--platform=managed'
       - '--image=us-central1-docker.pkg.dev/$PROJECT_ID/service-status-repo/$PROJECT_ID:$COMMIT_SHA'
       - '--region=us-central1'
       - '--quiet'
+
+  # 4. Make the Cloud Run service publicly accessible (Allow Unauthenticated)
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
+    id: Make-Public
+    entrypoint: 'gcloud'
+    args:
+      - 'run'
+      - 'services'
+      - 'add-iam-policy-binding'
+      - 'pt-service-status'
+      - '--region=us-central1'
+      - '--member=allUsers'
+      - '--role=roles/run.invoker'
 
 images:
   - 'us-central1-docker.pkg.dev/$PROJECT_ID/service-status-repo/$PROJECT_ID:$COMMIT_SHA'
