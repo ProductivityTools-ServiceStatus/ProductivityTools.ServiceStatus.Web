@@ -27,7 +27,7 @@ steps:
       - 'run'
       - 'services'
       - 'update'
-      - '$PROJECT_ID'
+      - 'pt-service-status'
       - '--platform=managed'
       - '--image=us-central1-docker.pkg.dev/$PROJECT_ID/service-status-repo/$PROJECT_ID:$COMMIT_SHA'
       - '--region=us-central1'
