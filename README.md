@@ -4,7 +4,7 @@ React application for displaying the status of various services.
 
 ## 🚀 Deployment
 
-This application is deployed on **Google Cloud Run** in the **PTServiceStatus** project.
+This application is deployed on **Google Cloud Run** in the **PTProjectsWeb** project.
 
 - **Primary Custom Domain:** [https://servicestatus.productivitytools.top](https://servicestatus.productivitytools.top)
 - **Cloud Run URL:** [https://ptservicestatus-309299231472.us-central1.run.app/](https://ptservicestatus-309299231472.us-central1.run.app/)

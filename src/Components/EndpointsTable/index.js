@@ -71,7 +71,7 @@ function EndpointsTable() {
           </tr>
         </thead>
         <tbody>
-          {serviceConfig && serviceConfig.filter(x => x.Service != null).map((config, index) => (
+          {serviceConfig && serviceConfig.filter(x => x.ServiceStatus == 1).map((config, index) => (
             <Endpoint key={config.Address || index} config={config} />
           ))}
         </tbody>
