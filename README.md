@@ -1,5 +1,7 @@
 # ProductivityTools.ServiceStatus.Web
 
+## It should be moved to Firebase hosting, but I will do it after all applications will be on github actions
+
 React application for displaying the status of various services.
 
 ## 🚀 Deployment
