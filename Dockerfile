@@ -17,12 +17,19 @@ RUN npm run build
 # ==========================================
 FROM nginx:alpine
 
+# Kopiujemy szablon konfiguracji Nginxa, który odczytuje zmienną PORT
+COPY nginx/default.conf.template /etc/nginx/templates/default.conf.template
+
+# Ustawiamy domyślny PORT na 8080 (wymagany przez Cloud Run) oraz filtr dla envsubst
+ENV PORT=8080
+ENV NGINX_ENVSUBST_FILTER=PORT
+
 # Kopiujemy TYLKO skompilowane, statyczne pliki z pierwszego etapu
 # Uwaga: Vite domyślnie generuje pliki do folderu /app/dist (a nie /build)
 COPY --from=build /app/dist /usr/share/nginx/html
 
 # Expose portu, na którym działa Nginx
-EXPOSE 80
+EXPOSE 8080
 
 # Uruchamiamy Nginxa
 CMD ["nginx", "-g", "daemon off;"]
