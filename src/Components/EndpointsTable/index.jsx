@@ -61,9 +61,9 @@ function EndpointsTable() {
             <th>
               Service
             </th>
-            <th>Control</th>
+            <th>SQLInstanceName</th>
             <th>
-              SQLInstanceName
+              Date
             </th>
             <th>
               Date
