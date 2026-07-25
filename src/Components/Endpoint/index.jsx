@@ -94,6 +94,7 @@ function Endpoint({ config }) {
     return (
         <>
             <tr>
+                
                 <td rowSpan={2}>
                     {config.rr}
                 </td>
@@ -102,7 +103,7 @@ function Endpoint({ config }) {
                     {config.Service}
                 </td>
                 <td className={getClassName(appNameError, config.DbInstanceName, dbInstanceName)}>
-                    {config.DbInstanceName}
+                    {config.SqlServerInstanceName}
                 </td>
                 <td className={getClassName(dateError, null, null)}>
                     {getCurerntDate()}

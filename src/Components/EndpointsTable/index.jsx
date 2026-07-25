@@ -40,7 +40,7 @@ function EndpointsTable() {
   }
 
   if (error) {
-    return <div style={{ color: 'red' }}>Error loading addresses: {error}</div>;
+    return <div style={{ color: 'red' }}>Error loading addresses: {error}</div>
   }
 
   if (serviceConfig.length === 0) {
