@@ -64,13 +64,17 @@ function Endpoint({ config }) {
         fetchDate();
     }, [reloader]);
 
-    const getClassName = (error, config, serverValue) => {
+    const getClassName = (error, configValue, serverValue) => {
         if (error) {
-            return 'error'
+            return 'error';
         }
-        if (config == serverValue) {
-            return 'green'
+        if (configValue === undefined || configValue === null || serverValue === undefined || serverValue === null) {
+            return '';
         }
+        if (String(configValue).trim() === String(serverValue).trim()) {
+            return 'green';
+        }
+        return 'error';
     }
 
     const getCurerntDate = () => {
@@ -91,6 +95,8 @@ function Endpoint({ config }) {
         setReloader(reloader+1);
     }
 
+    const expectedDbInstanceName = config.SqlServerInstanceName ?? config.DbInstanceName;
+
     return (
         <>
             <tr>
@@ -102,8 +108,8 @@ function Endpoint({ config }) {
                 <td className={getClassName(appNameError, config.Service, appName)}>
                     {config.Service}
                 </td>
-                <td className={getClassName(appNameError, config.DbInstanceName, dbInstanceName)}>
-                    {config.SqlServerInstanceName}
+                <td className={getClassName(dbInstanceNameError, expectedDbInstanceName, dbInstanceName)}>
+                    {expectedDbInstanceName}
                 </td>
                 <td className={getClassName(dateError, null, null)}>
                     {getCurerntDate()}
@@ -116,7 +122,7 @@ function Endpoint({ config }) {
                 <td className={getClassName(appNameError, config.Service, appName)}>
                     {appNameError ?? appName}
                 </td>
-                <td className={getClassName(dbInstanceNameError)}>
+                <td className={getClassName(dbInstanceNameError, expectedDbInstanceName, dbInstanceName)}>
                     {dbInstanceNameError ?? dbInstanceName}
                 </td>
                 <td className={getClassName(dateError, null, null)}>
